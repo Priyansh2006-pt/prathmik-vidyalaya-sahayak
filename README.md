@@ -1,183 +1,148 @@
-# प्राथमिक विद्यालय सहायक (Prathmik Vidyalaya Sahayak)
+# प्राथमिक विद्यालय सहायक  
+## Prathmik Vidyalaya Sahayak
 
-A free, Hindi-first digital record management system built for **Uttar Pradesh Government Hindi-medium Primary Schools**. Replaces paper registers (student, attendance, MDM, distribution, results) with one simple web app any Prathmik Vidyalaya can set up for itself.
+A **Hindi-first digital record management system** designed for **Government Hindi-medium Primary Schools**, especially for schools in Uttar Pradesh. The project helps schools move from paper-based registers to a simple web-based system for managing students, teachers, attendance, mid-day meal records, distribution records, results, and notices.
 
-> Built as a first-year B.Tech CSE project. No fee-management module (not needed for government schools). Fully customizable — one codebase, any school.
-
----
-
-## ✨ Features / Modules
-
-1. **School Profile Management** – one-time setup (name, village, block, district, UDISE code, headmaster, mobile)
-2. **Student Management** – add/edit/delete/search, class-wise listing
-3. **Teacher Management** – add/edit/delete/search staff directory
-4. **Attendance Management** – daily class-wise marking, monthly % report, low-attendance list
-5. **Mid-Day Meal (MDM) Management** – daily entry, monthly summary report
-6. **Books/Uniform/Bag/Shoes Distribution** – per-student status, auto pending list
-7. **Result / Progress Report** – marks entry, auto grade, printable report card
-8. **Notice / Announcement Board**
-9. Simple login (Headmaster / Teacher roles)
+This project is built with a practical goal: **make school record management simple, fast, organized, and accessible for teachers/headmasters who may not be very technical.**
 
 ---
 
-## 🛠 Tech Stack
+## Project Objective
 
-- **Backend:** Node.js + Express
-- **Views:** EJS (server-rendered HTML, beginner-friendly, no separate frontend build step)
-- **Database:** MySQL (`utf8mb4` throughout — full Hindi/Devanagari support)
-- **Auth:** express-session + bcryptjs
-- **Styling:** Plain CSS (no framework) — see `public/css/style.css`
+Many primary schools still maintain important records manually in registers. This can make searching, updating, reporting, and tracking information time-consuming. **Prathmik Vidyalaya Sahayak** solves this problem by providing a centralized digital platform where school staff can manage daily academic and administrative records easily.
 
----
+The system focuses on:
 
-## 📁 Folder Structure
-
-```
-prathmik-vidyalaya-sahayak/
-├── server.js                  # App entry point
-├── config/db.js               # MySQL connection pool
-├── middleware/                # requireLogin, checkSchoolSetup
-├── routes/                    # One file per module (students, teachers, ...)
-├── views/                     # EJS templates, organized by module
-├── public/css, public/js      # Static assets
-├── database/schema.sql        # Run once to create DB + tables
-├── database/seed.sql          # Optional sample data
-├── database/createAdmin.js    # Run once to create the first login
-├── .env.example                # Copy to .env and fill in your values
-└── package.json
-```
+- Reducing paperwork
+- Saving teachers’ time
+- Keeping records organized
+- Supporting Hindi/Devanagari text
+- Making reports easier to generate and review
+- Providing a beginner-friendly web interface
 
 ---
 
-## 🚀 Local Setup (Step by Step)
+## Key Features
 
-### 1. Prerequisites
-- [Node.js](https://nodejs.org) (v18 or higher)
-- [MySQL](https://dev.mysql.com/downloads/mysql/) (v8 recommended) running locally
-- Git
+### 1. School Profile Management
+- One-time school setup
+- Stores school name, village/area, block, district, state, UDISE code, headmaster name, and contact number
+- Makes the app customizable for any primary school
 
-### 2. Clone and install
-```bash
-git clone https://github.com/<your-username>/prathmik-vidyalaya-sahayak.git
-cd prathmik-vidyalaya-sahayak
-npm install
-```
+### 2. Student Management
+- Add, edit, delete, and view student records
+- Store student details such as name, class, gender, guardian name, address, and contact details
+- Class-wise student organization
 
-### 3. Create the database
-Log in to MySQL and run the schema file:
-```bash
-mysql -u root -p < database/schema.sql
-```
-(Optional) load sample demo data:
-```bash
-mysql -u root -p < database/seed.sql
-```
+### 3. Teacher Management
+- Add and manage teacher/staff records
+- Maintain a simple staff directory
+- Useful for school-level administration
 
-### 4. Configure environment variables
-```bash
-cp .env.example .env
-```
-Open `.env` and fill in your MySQL username/password:
-```
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_mysql_password
-DB_NAME=prathmik_vidyalaya_sahayak
-PORT=3000
-SESSION_SECRET=any_random_long_string
-```
+### 4. Attendance Management
+- Mark daily attendance class-wise
+- Generate monthly attendance reports
+- Identify students with low attendance
+- Helps teachers track regularity and follow up with parents/guardians
 
-### 5. Create your first login
-```bash
-node database/createAdmin.js
-```
-This creates:
-- username: `admin`
-- password: `admin123`
+### 5. Mid-Day Meal Management
+- Record daily MDM details
+- Track number of students served
+- Maintain monthly meal records
+- Useful for government school reporting requirements
 
-(Change this password later — for v1, the classroom project doesn't need a "change password" screen, but you can add one as an extension.)
+### 6. Distribution Record Management
+- Track distribution of items like books, uniforms, bags, shoes, etc.
+- Student-wise distribution status
+- Pending distribution list for easy follow-up
 
-### 6. Run the app
-```bash
-npm start
-```
-Visit **http://localhost:3000** — you'll land on the login page, then (on first run) the School Profile setup form, then the dashboard.
+### 7. Result / Progress Report
+- Enter marks for students
+- Generate result records
+- Printable report card support
+- Helps teachers maintain academic progress digitally
 
-For development with auto-restart on file changes:
-```bash
-npm run dev
-```
+### 8. Notice Board
+- Add and display school notices/announcements
+- Useful for quick communication inside the school system
+
+### 9. Login System
+- Basic authentication system
+- Headmaster/teacher role support
+- Session-based login using Express session
 
 ---
 
-## 🌐 Getting a Live/Workable Link (Deployment)
+## Tech Stack
 
-Since this is a full Node.js + MySQL app (not a static site), you need a host that runs a Node server **and** gives you a MySQL database. Good beginner-friendly free/cheap options in 2026:
-
-| Option | Notes |
+| Part | Technology Used |
 |---|---|
-| **Railway** (railway.app) | Easiest: one-click Node.js deploy + built-in MySQL plugin. Good free tier for student projects. |
-| **Render** (render.com) | Free Node.js web service; pair with a free MySQL DB from a provider like Aiven or PlanetScale (MySQL-compatible). |
-| **PlanetScale / Aiven** | Free-tier hosted MySQL if your host doesn't provide one. |
-
-**General deployment steps (works similarly on Railway/Render):**
-1. Push this project to a GitHub repository (see below).
-2. Create a new "Web Service" on the host, connect it to your GitHub repo.
-3. Add a MySQL database add-on/plugin on the same platform.
-4. Set the environment variables (`DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `SESSION_SECRET`, `PORT`) in the host's dashboard using the credentials it gives you for the MySQL database.
-5. Run `database/schema.sql` against that live database once (most hosts let you open a MySQL console, or you can connect locally with a MySQL client using the host's connection details).
-6. Run `node database/createAdmin.js` once (most hosts let you run a one-off command/shell).
-7. Deploy — the host will give you a public URL like `https://prathmik-vidyalaya-sahayak.up.railway.app`. That's your "workable link."
-
-> Tip for your project demo/viva: even a quick tunnel like `ngrok http 3000` while running locally on your laptop gives you a temporary public link — handy for a live demo without full deployment.
+| Backend | Node.js, Express.js |
+| Frontend Views | EJS Templates |
+| Database | MySQL |
+| Authentication | express-session, bcryptjs |
+| Styling | HTML, CSS, JavaScript |
+| Environment Config | dotenv |
+| Deployment Target | Railway |
 
 ---
 
-## 📤 Pushing to GitHub
+## Future Scope
 
-```bash
-git init
-git add .
-git commit -m "Initial commit: Prathmik Vidyalaya Sahayak"
-git branch -M main
-git remote add origin https://github.com/<your-username>/prathmik-vidyalaya-sahayak.git
-git push -u origin main
-```
+The project can be improved further with the following features:
 
-`.env` is already excluded via `.gitignore` — never commit real database passwords.
+### 1. Parent SMS / WhatsApp Alerts
+Send automatic messages to parents for low attendance, exam results, important notices, MDM updates, and distribution reminders.
 
----
+### 2. PDF Report Generation
+Add downloadable PDF reports for student report cards, monthly attendance, MDM reports, distribution status, and teacher records.
 
-## 🗄 Database Design (Summary)
+### 3. Mobile App / PWA Support
+Convert the web app into a Progressive Web App so teachers can install it on mobile phones and use it like an app.
 
-| Table | Purpose |
-|---|---|
-| `school_profile` | Single row holding this installation's school details |
-| `users` | Login accounts (Headmaster/Teacher) |
-| `students` | Master student records |
-| `teachers` | Staff directory |
-| `attendance` | One row per student per day |
-| `mdm_record` | One row per school day (school-wide meal totals) |
-| `distribution_record` | One row per student, updated as items are given |
-| `results` | One row per student per exam term |
-| `notices` | Announcements |
+### 4. Multi-School Support
+Add support for multiple schools under one system with school-level login, block-level dashboard, district-level reports, and analytics.
 
-Full column-level definitions are in `database/schema.sql`.
+### 5. Advanced Dashboard and Analytics
+Add charts and summaries for attendance trends, class-wise student count, MDM usage, result performance, and distribution completion.
 
----
+### 6. Role-Based Access Control
+Improve login system with roles such as Headmaster, Teacher, Clerk/Data Entry Operator, and Block Education Officer.
 
-## 🔮 Future Scope
+### 7. Student Photo Upload
+Add student profile photos for better identification and digital records.
 
-- Web → also expose as a simple mobile-friendly PWA
-- SMS alerts to parents for low attendance
-- PDF export of report cards
-- Multi-school / Block-level admin dashboard
-- Photo upload for student records
-- Biometric/app-based attendance
+### 8. Cloud Backup
+Automatically backup database records to cloud storage to prevent data loss.
+
+### 9. Offline Mode
+Allow teachers to enter data without internet and sync later when internet is available.
+
+### 10. QR-Based Student ID
+Generate QR codes for students to quickly access their records, attendance, and report cards.
+
+### 11. Government Report Format Export
+Export records in Excel/PDF formats useful for official school reporting.
+
+### 12. AI-Based Insights
+Use AI to generate simple insights like students with low attendance, class performance summary, monthly school summary, and suggested teacher follow-ups.
 
 ---
 
-## 📄 License
+## Author
 
-MIT — free to use, modify, and reuse for your own school or college project.
+**Priyansh Tiwari**  
+B.Tech CSE Student  
+GitHub: `Priyansh2006-pt`
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## Final Note
+
+**Prathmik Vidyalaya Sahayak** is not just a school management project. It is a small step toward making government primary school record management more digital, simple, and accessible.
