@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'मासिक मध्याह्न भोजन रिपोर्ट' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'mdm' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>मासिक मध्याह्न भोजन रिपोर्ट</h1>
+            <div class="subtitle"><%= school.school_name %></div>
+        </div>
+        <a href="/mdm" class="btn btn-outline">← वापस</a>
+    </div>
+
+    <form method="GET" action="/mdm/monthly" class="filter-bar">
+        <div class="field">
+            <label>महीना</label>
+            <input type="month" name="month" value="<%= selectedMonth %>">
+        </div>
+        <div class="field"><button type="submit" class="btn btn-outline btn-sm">दिखाएं</button></div>
+    </form>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value"><%= totals.totalDays %></div>
+            <div class="stat-label">कुल दर्ज दिन</div>
+        </div>
+        <div class="stat-card ok">
+            <div class="stat-value"><%= totals.daysCooked %></div>
+            <div class="stat-label">भोजन बना (दिन)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value"><%= totals.totalMealsServed %></div>
+            <div class="stat-label">कुल भोजन (छात्र-दिन)</div>
+        </div>
+    </div>
+
+    <div class="card" style="padding:0;">
+        <% if (rows.length === 0) { %>
+            <div class="empty-state"><div class="icon">🍛</div>इस महीने का कोई डेटा नहीं मिला।</div>
+        <% } else { %>
+        <div class="table-wrap">
+        <table class="register">
+            <thead><tr><th>तारीख</th><th>कुल उपस्थित</th><th>भोजन प्राप्त</th><th>मेनू</th><th>भोजन बना</th></tr></thead>
+            <tbody>
+            <% rows.forEach(function(r) { %>
+                <tr>
+                    <td><%= new Date(r.mdm_date).toLocaleDateString('hi-IN') %></td>
+                    <td><%= r.total_present %></td>
+                    <td><%= r.meal_taken_count %></td>
+                    <td><%= r.menu %></td>
+                    <td><span class="badge <%= r.meal_cooked === 'Yes' ? 'badge-yes' : 'badge-no' %>"><%= r.meal_cooked === 'Yes' ? 'हाँ' : 'नहीं' %></span></td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

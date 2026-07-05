@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'शिक्षक प्रबंधन' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'teachers' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>शिक्षक प्रबंधन</h1>
+            <div class="subtitle">कुल <%= teachers.length %> शिक्षक</div>
+        </div>
+        <a href="/teachers/add" class="btn btn-primary">+ नए शिक्षक जोड़ें</a>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <form method="GET" action="/teachers" class="filter-bar">
+        <div class="field">
+            <label>नाम खोजें</label>
+            <input type="text" name="search" value="<%= search %>" placeholder="शिक्षक का नाम">
+        </div>
+        <div class="field"><button type="submit" class="btn btn-outline btn-sm">खोजें</button></div>
+    </form>
+
+    <div class="card" style="padding:0;">
+        <% if (teachers.length === 0) { %>
+            <div class="empty-state">
+                <div class="icon">🧑‍🏫</div>
+                कोई शिक्षक नहीं मिला। <a href="/teachers/add">पहले शिक्षक जोड़ें</a>।
+            </div>
+        <% } else { %>
+        <div class="table-wrap">
+        <table class="register">
+            <thead>
+                <tr><th>नाम</th><th>पद</th><th>कक्षा/विषय</th><th>योग्यता</th><th>मोबाइल</th><th>जॉइनिंग डेट</th><th>क्रियाएं</th></tr>
+            </thead>
+            <tbody>
+                <% teachers.forEach(function(t) { %>
+                <tr>
+                    <td><%= t.teacher_name %></td>
+                    <td><%= t.designation %></td>
+                    <td><%= t.class_subject %></td>
+                    <td><%= t.qualification %></td>
+                    <td><%= t.mobile_number %></td>
+                    <td><%= t.joining_date ? new Date(t.joining_date).toLocaleDateString('hi-IN') : '' %></td>
+                    <td>
+                        <a href="/teachers/edit/<%= t.teacher_id %>" class="btn btn-outline btn-sm">संपादित करें</a>
+                        <form method="POST" action="/teachers/delete/<%= t.teacher_id %>" style="display:inline;" onsubmit="return confirm('क्या आप वाकई हटाना चाहते हैं?');">
+                            <button type="submit" class="btn btn-danger btn-sm">हटाएं</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

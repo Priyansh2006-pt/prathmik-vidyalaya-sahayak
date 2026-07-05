@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'रिपोर्ट कार्ड - ' + student.student_name }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'results' }) %>
+
+<main class="main">
+    <div class="page-header no-print">
+        <h1>प्रगति रिपोर्ट कार्ड</h1>
+        <div>
+            <button onclick="window.print()" class="btn btn-accent">🖨 प्रिंट करें</button>
+            <a href="/results?class_name=<%= student.class_name %>&term=<%= term %>" class="btn btn-outline">← वापस</a>
+        </div>
+    </div>
+
+    <div class="report-card">
+        <div class="rc-header">
+            <h2><%= school.school_name %></h2>
+            <div class="rc-sub"><%= school.village_area %>, <%= school.block_name %>, <%= school.district_name %>, <%= school.state_name %></div>
+            <div class="rc-sub" style="margin-top:8px; font-weight:600;">प्रगति रिपोर्ट — <%= term %></div>
+        </div>
+
+        <table style="margin-bottom:6px;">
+            <tr><td style="width:35%; color:var(--text-muted);">छात्र का नाम</td><td><b><%= student.student_name %></b></td></tr>
+            <tr><td style="color:var(--text-muted);">कक्षा</td><td><%= student.class_name %></td></tr>
+            <tr><td style="color:var(--text-muted);">रोल नंबर</td><td><%= student.roll_number %></td></tr>
+            <tr><td style="color:var(--text-muted);">पिता का नाम</td><td><%= student.father_name %></td></tr>
+        </table>
+
+        <table>
+            <thead><tr><th>विषय</th><th>अंक / ग्रेड</th></tr></thead>
+            <tbody>
+                <tr><td>हिंदी</td><td><%= result.hindi_marks || '-' %></td></tr>
+                <tr><td>अंग्रेज़ी</td><td><%= result.english_marks || '-' %></td></tr>
+                <tr><td>गणित</td><td><%= result.maths_marks || '-' %></td></tr>
+                <tr><td>पर्यावरण अध्ययन</td><td><%= result.evs_marks || '-' %></td></tr>
+                <tr><td><b>कुल ग्रेड</b></td><td><b><%= result.overall_grade %></b></td></tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top:16px; font-size:13.5px;"><b>शिक्षक टिप्पणी:</b> <%= result.teacher_remark || '—' %></p>
+
+        <div style="display:flex; justify-content:space-between; margin-top:40px; font-size:12.5px; color:var(--text-muted);">
+            <div>___________________<br>कक्षा अध्यापक हस्ताक्षर</div>
+            <div>___________________<br>प्रधानाध्यापक हस्ताक्षर</div>
+        </div>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

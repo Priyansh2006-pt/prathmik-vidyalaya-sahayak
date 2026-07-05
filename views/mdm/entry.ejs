@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'मध्याह्न भोजन' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'mdm' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>मध्याह्न भोजन (MDM) रिकॉर्ड</h1>
+            <div class="subtitle">रोज़ का भोजन विवरण दर्ज करें</div>
+        </div>
+        <a href="/mdm/monthly" class="btn btn-outline">📈 मासिक रिपोर्ट</a>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <div class="card">
+        <span class="card-tab-title">आज / किसी तारीख की जानकारी दर्ज करें</span>
+        <form method="POST" action="/mdm/add">
+            <div class="form-grid">
+                <div class="field">
+                    <label>तारीख *</label>
+                    <input type="date" name="mdm_date" required value="<%= today %>">
+                </div>
+                <div class="field">
+                    <label>कुल उपस्थित विद्यार्थी</label>
+                    <input type="number" name="total_present" min="0">
+                </div>
+                <div class="field">
+                    <label>भोजन प्राप्त करने वाले विद्यार्थी</label>
+                    <input type="number" name="meal_taken_count" min="0">
+                </div>
+                <div class="field">
+                    <label>भोजन बना या नहीं</label>
+                    <select name="meal_cooked">
+                        <option value="Yes">हाँ</option>
+                        <option value="No">नहीं</option>
+                    </select>
+                </div>
+                <div class="field full">
+                    <label>मेनू</label>
+                    <input type="text" name="menu" placeholder="जैसे: दाल-चावल, सब्जी">
+                </div>
+                <div class="field full">
+                    <label>Remarks</label>
+                    <textarea name="remarks" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">सेव करें</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card" style="padding:0;">
+        <span class="card-tab-title" style="margin:20px 0 16px 0;">हाल के रिकॉर्ड</span>
+        <% if (entries.length === 0) { %>
+            <div class="empty-state" style="padding-top:0;"><div class="icon">🍛</div>अभी तक कोई MDM रिकॉर्ड दर्ज नहीं हुआ।</div>
+        <% } else { %>
+        <div class="table-wrap">
+        <table class="register">
+            <thead><tr><th>तारीख</th><th>कुल उपस्थित</th><th>भोजन प्राप्त</th><th>मेनू</th><th>भोजन बना</th><th>Remarks</th></tr></thead>
+            <tbody>
+            <% entries.forEach(function(e) { %>
+                <tr>
+                    <td><%= new Date(e.mdm_date).toLocaleDateString('hi-IN') %></td>
+                    <td><%= e.total_present %></td>
+                    <td><%= e.meal_taken_count %></td>
+                    <td><%= e.menu %></td>
+                    <td><span class="badge <%= e.meal_cooked === 'Yes' ? 'badge-yes' : 'badge-no' %>"><%= e.meal_cooked === 'Yes' ? 'हाँ' : 'नहीं' %></span></td>
+                    <td><%= e.remarks %></td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

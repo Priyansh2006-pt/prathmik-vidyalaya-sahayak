@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'वितरण रिकॉर्ड' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'distribution' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>किताब / यूनिफॉर्म / बैग / जूते वितरण रिकॉर्ड</h1>
+            <div class="subtitle">प्रत्येक छात्र की वितरण स्थिति अपडेट करें</div>
+        </div>
+        <a href="/distribution/pending" class="btn btn-outline">⚠ लंबित सूची</a>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <form method="GET" action="/distribution" class="filter-bar">
+        <div class="field">
+            <label>कक्षा</label>
+            <select name="class_filter" onchange="this.form.submit()">
+                <option value="">सभी कक्षाएं</option>
+                <% classes.forEach(function(c) { %>
+                    <option value="<%= c %>" <%= class_filter === c ? 'selected' : '' %>><%= c %></option>
+                <% }) %>
+            </select>
+        </div>
+    </form>
+
+    <!-- One hidden form per row (HTML5 form= attribute links inputs to it, valid inside table cells) -->
+    <% rows.forEach(function(r) { %>
+        <form id="dist-form-<%= r.student_id %>" method="POST" action="/distribution/update/<%= r.student_id %>"></form>
+    <% }) %>
+
+    <div class="card" style="padding:0;">
+        <div class="table-wrap">
+        <table class="register">
+            <thead>
+                <tr><th>कक्षा</th><th>रोल नं.</th><th>नाम</th><th>किताब</th><th>यूनिफॉर्म</th><th>बैग</th><th>जूते</th><th>वितरण तिथि</th><th>अपडेट</th></tr>
+            </thead>
+            <tbody>
+            <% rows.forEach(function(r) { %>
+                <% const fid = 'dist-form-' + r.student_id; %>
+                <tr>
+                    <td><%= r.class_name %></td>
+                    <td><%= r.roll_number %></td>
+                    <td><%= r.student_name %></td>
+                    <td>
+                        <select name="books_received" form="<%= fid %>">
+                            <option value="No" <%= r.books_received !== 'Yes' ? 'selected' : '' %>>नहीं</option>
+                            <option value="Yes" <%= r.books_received === 'Yes' ? 'selected' : '' %>>हाँ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="uniform_received" form="<%= fid %>">
+                            <option value="No" <%= r.uniform_received !== 'Yes' ? 'selected' : '' %>>नहीं</option>
+                            <option value="Yes" <%= r.uniform_received === 'Yes' ? 'selected' : '' %>>हाँ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="bag_received" form="<%= fid %>">
+                            <option value="No" <%= r.bag_received !== 'Yes' ? 'selected' : '' %>>नहीं</option>
+                            <option value="Yes" <%= r.bag_received === 'Yes' ? 'selected' : '' %>>हाँ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="shoes_received" form="<%= fid %>">
+                            <option value="No" <%= r.shoes_received !== 'Yes' ? 'selected' : '' %>>नहीं</option>
+                            <option value="Yes" <%= r.shoes_received === 'Yes' ? 'selected' : '' %>>हाँ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="date" name="distribution_date" form="<%= fid %>"
+                               value="<%= r.distribution_date ? new Date(r.distribution_date).toISOString().slice(0,10) : '' %>" style="padding:5px;">
+                    </td>
+                    <td><button type="submit" form="<%= fid %>" class="btn btn-primary btn-sm">सेव</button></td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

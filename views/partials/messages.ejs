@@ -1,0 +1,10 @@
+<% if (typeof success !== 'undefined' && success.length > 0) { %>
+    <% success.forEach(function(msg) { %>
+        <div class="alert alert-success">✔ <%= msg %></div>
+    <% }) %>
+<% } %>
+<% if (typeof error !== 'undefined' && error.length > 0) { %>
+    <% error.forEach(function(msg) { %>
+        <div class="alert alert-error">⚠ <%= msg %></div>
+    <% }) %>
+<% } %>

@@ -1,0 +1,34 @@
+<aside class="sidebar no-print">
+    <div class="brand">
+        <div class="school-name"><%= school ? school.school_name : 'प्राथमिक विद्यालय सहायक' %></div>
+        <div class="school-village"><%= school ? (school.village_area + ', ' + school.district_name) : '' %></div>
+    </div>
+
+    <nav>
+        <a href="/" class="<%= active === 'dashboard' ? 'active' : '' %>">🏠 डैशबोर्ड</a>
+
+        <div class="tag">विद्यालय</div>
+        <a href="/school/setup" class="<%= active === 'school' ? 'active' : '' %>">🏫 विद्यालय प्रोफ़ाइल</a>
+        <a href="/notices" class="<%= active === 'notices' ? 'active' : '' %>">📢 सूचनाएं</a>
+
+        <div class="tag">रिकॉर्ड</div>
+        <a href="/students" class="<%= active === 'students' ? 'active' : '' %>">🧒 छात्र प्रबंधन</a>
+        <a href="/teachers" class="<%= active === 'teachers' ? 'active' : '' %>">🧑‍🏫 शिक्षक प्रबंधन</a>
+
+        <div class="tag">दैनिक कार्य</div>
+        <a href="/attendance/mark" class="<%= active === 'attendance' ? 'active' : '' %>">✅ उपस्थिति</a>
+        <a href="/mdm" class="<%= active === 'mdm' ? 'active' : '' %>">🍛 मध्याह्न भोजन</a>
+        <a href="/distribution" class="<%= active === 'distribution' ? 'active' : '' %>">🎒 वितरण रिकॉर्ड</a>
+
+        <div class="tag">परिणाम</div>
+        <a href="/results" class="<%= active === 'results' ? 'active' : '' %>">📊 परिणाम / प्रगति रिपोर्ट</a>
+    </nav>
+
+    <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+    <div class="user-box">
+        <div><%= currentUser.full_name %></div>
+        <div class="role"><%= currentUser.role %></div>
+        <a class="logout-link" href="/auth/logout">लॉग आउट करें →</a>
+    </div>
+    <% } %>
+</aside>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'लंबित वितरण सूची' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'distribution' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>लंबित वितरण सूची</h1>
+            <div class="subtitle">जिन छात्रों को अभी तक कोई सामान नहीं मिला</div>
+        </div>
+        <a href="/distribution" class="btn btn-outline">← वापस</a>
+    </div>
+
+    <div class="card" style="padding:0;">
+        <% if (rows.length === 0) { %>
+            <div class="empty-state"><div class="icon">✅</div>सभी छात्रों को पूरा सामान मिल चुका है!</div>
+        <% } else { %>
+        <div class="table-wrap">
+        <table class="register">
+            <thead><tr><th>कक्षा</th><th>रोल नं.</th><th>नाम</th><th>किताब</th><th>यूनिफॉर्म</th><th>बैग</th><th>जूते</th></tr></thead>
+            <tbody>
+            <% rows.forEach(function(r) { %>
+                <tr>
+                    <td><%= r.class_name %></td>
+                    <td><%= r.roll_number %></td>
+                    <td><%= r.student_name %></td>
+                    <td><span class="badge <%= r.books_received === 'Yes' ? 'badge-yes' : 'badge-no' %>"><%= r.books_received === 'Yes' ? 'हाँ' : 'नहीं' %></span></td>
+                    <td><span class="badge <%= r.uniform_received === 'Yes' ? 'badge-yes' : 'badge-no' %>"><%= r.uniform_received === 'Yes' ? 'हाँ' : 'नहीं' %></span></td>
+                    <td><span class="badge <%= r.bag_received === 'Yes' ? 'badge-yes' : 'badge-no' %>"><%= r.bag_received === 'Yes' ? 'हाँ' : 'नहीं' %></span></td>
+                    <td><span class="badge <%= r.shoes_received === 'Yes' ? 'badge-yes' : 'badge-no' %>"><%= r.shoes_received === 'Yes' ? 'हाँ' : 'नहीं' %></span></td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

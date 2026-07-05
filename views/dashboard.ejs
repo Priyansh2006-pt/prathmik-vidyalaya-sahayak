@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('partials/head', { title: 'डैशबोर्ड - ' + (school ? school.school_name : '') }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('partials/nav', { active: 'dashboard' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>नमस्ते<%= currentUser ? ', ' + currentUser.full_name : '' %> 👋</h1>
+            <div class="subtitle"><%= school.school_name %> — <%= today %></div>
+        </div>
+        <a href="/attendance/mark" class="btn btn-accent">✅ आज की उपस्थिति दर्ज करें</a>
+    </div>
+
+    <%- include('partials/messages') %>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value"><%= totalStudents %></div>
+            <div class="stat-label">कुल छात्र</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value"><%= totalTeachers %></div>
+            <div class="stat-label">कुल शिक्षक</div>
+        </div>
+        <div class="stat-card <%= markedToday > 0 ? 'ok' : '' %>">
+            <div class="stat-value"><%= markedToday > 0 ? (presentToday + '/' + markedToday) : '—' %></div>
+            <div class="stat-label">आज उपस्थित / दर्ज किए गए</div>
+        </div>
+        <div class="stat-card <%= mdmToday ? 'ok' : 'alert' %>">
+            <div class="stat-value"><%= mdmToday ? mdmToday.meal_taken_count : '—' %></div>
+            <div class="stat-label"><%= mdmToday ? 'आज भोजन प्राप्त छात्र' : 'आज MDM दर्ज नहीं हुआ' %></div>
+        </div>
+        <div class="stat-card <%= pendingCount > 0 ? 'alert' : 'ok' %>">
+            <div class="stat-value"><%= pendingCount %></div>
+            <div class="stat-label">वितरण में लंबित छात्र</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="card-tab-title">📢 हाल की सूचनाएं</span>
+        <% if (recentNotices.length === 0) { %>
+            <div class="empty-state">
+                <div class="icon">🗒️</div>
+                कोई सूचना अभी तक नहीं जोड़ी गई। <a href="/notices">यहाँ से जोड़ें</a>।
+            </div>
+        <% } else { %>
+            <% recentNotices.forEach(function(n) { %>
+                <div class="notice-item">
+                    <div><%= n.notice_text %></div>
+                    <div class="notice-date"><%= new Date(n.notice_date).toLocaleDateString('hi-IN') %></div>
+                </div>
+            <% }) %>
+            <div style="margin-top:12px;"><a href="/notices">सभी सूचनाएं देखें →</a></div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

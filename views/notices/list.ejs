@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'सूचनाएं' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'notices' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <h1>सूचना / घोषणा बोर्ड</h1>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <div class="card">
+        <span class="card-tab-title">नई सूचना जोड़ें</span>
+        <form method="POST" action="/notices/add">
+            <div class="form-grid">
+                <div class="field full">
+                    <label>सूचना का विवरण *</label>
+                    <textarea name="notice_text" rows="2" required></textarea>
+                </div>
+                <div class="field">
+                    <label>तारीख *</label>
+                    <input type="date" name="notice_date" required value="<%= today %>">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">सूचना जोड़ें</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <span class="card-tab-title">सभी सूचनाएं</span>
+        <% if (notices.length === 0) { %>
+            <div class="empty-state" style="padding-top:6px;"><div class="icon">🗒️</div>अभी तक कोई सूचना नहीं जोड़ी गई।</div>
+        <% } else { %>
+            <% notices.forEach(function(n) { %>
+                <div class="notice-item">
+                    <div><%= n.notice_text %></div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span class="notice-date"><%= new Date(n.notice_date).toLocaleDateString('hi-IN') %></span>
+                        <form method="POST" action="/notices/delete/<%= n.notice_id %>" onsubmit="return confirm('क्या यह सूचना हटाएं?');">
+                            <button type="submit" class="btn btn-danger btn-sm">हटाएं</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

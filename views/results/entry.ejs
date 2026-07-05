@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'अंक दर्ज करें - ' + student.student_name }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'results' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <h1><%= student.student_name %> — <%= term %></h1>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <div class="card">
+        <span class="card-tab-title">अंक / ग्रेड दर्ज करें</span>
+        <form method="POST" action="/results/entry/<%= student.student_id %>/<%= encodeURIComponent(term) %>">
+            <div class="form-grid">
+                <div class="field">
+                    <label>हिंदी</label>
+                    <input type="text" name="hindi_marks" value="<%= result ? result.hindi_marks : '' %>">
+                </div>
+                <div class="field">
+                    <label>अंग्रेज़ी</label>
+                    <input type="text" name="english_marks" value="<%= result ? result.english_marks : '' %>">
+                </div>
+                <div class="field">
+                    <label>गणित</label>
+                    <input type="text" name="maths_marks" value="<%= result ? result.maths_marks : '' %>">
+                </div>
+                <div class="field">
+                    <label>पर्यावरण अध्ययन (EVS)</label>
+                    <input type="text" name="evs_marks" value="<%= result ? result.evs_marks : '' %>">
+                </div>
+                <div class="field full">
+                    <label>शिक्षक टिप्पणी</label>
+                    <textarea name="teacher_remark" rows="2"><%= result ? result.teacher_remark : '' %></textarea>
+                </div>
+            </div>
+            <p style="font-size:12.5px; color:var(--text-muted);">नोट: अंक संख्या में डालें तो ओवरऑल ग्रेड अपने आप बन जाएगा (उदाहरण: 85)। सीधे ग्रेड भी डाल सकते हैं (जैसे: A)।</p>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">सेव करें</button>
+                <a href="/results?class_name=<%= student.class_name %>&term=<%= term %>" class="btn btn-outline">रद्द करें</a>
+            </div>
+        </form>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

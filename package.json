@@ -1,0 +1,25 @@
+{
+  "name": "prathmik-vidyalaya-sahayak",
+  "version": "1.0.0",
+  "description": "Digital record management system for UP Government Hindi-medium Primary Schools (Prathmik Vidyalaya)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["school", "management", "hindi", "primary-school", "up-government", "education"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

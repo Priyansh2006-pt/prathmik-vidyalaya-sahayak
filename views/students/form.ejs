@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: student ? 'छात्र संपादित करें' : 'नया छात्र जोड़ें' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'students' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <h1><%= student ? 'छात्र की जानकारी संपादित करें' : 'नया छात्र पंजीकरण' %></h1>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <div class="card">
+        <span class="card-tab-title">छात्र पंजीकरण फॉर्म</span>
+        <form method="POST" action="<%= formAction %>">
+            <div class="form-grid">
+                <div class="field">
+                    <label>छात्र का नाम *</label>
+                    <input type="text" name="student_name" required value="<%= student ? student.student_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>कक्षा *</label>
+                    <select name="class_name" required>
+                        <option value="">चुनें</option>
+                        <% ['नर्सरी','कक्षा 1','कक्षा 2','कक्षा 3','कक्षा 4','कक्षा 5'].forEach(function(c) { %>
+                            <option value="<%= c %>" <%= student && student.class_name === c ? 'selected' : '' %>><%= c %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>रोल नंबर</label>
+                    <input type="text" name="roll_number" value="<%= student ? student.roll_number : '' %>">
+                </div>
+                <div class="field">
+                    <label>पिता का नाम</label>
+                    <input type="text" name="father_name" value="<%= student ? student.father_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>माता का नाम</label>
+                    <input type="text" name="mother_name" value="<%= student ? student.mother_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>जन्म तिथि</label>
+                    <input type="date" name="dob" value="<%= student && student.dob ? new Date(student.dob).toISOString().slice(0,10) : '' %>">
+                </div>
+                <div class="field">
+                    <label>लिंग</label>
+                    <select name="gender">
+                        <option value="">चुनें</option>
+                        <option value="पुरुष" <%= student && student.gender === 'पुरुष' ? 'selected' : '' %>>पुरुष</option>
+                        <option value="महिला" <%= student && student.gender === 'महिला' ? 'selected' : '' %>>महिला</option>
+                        <option value="अन्य" <%= student && student.gender === 'अन्य' ? 'selected' : '' %>>अन्य</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>अभिभावक मोबाइल नंबर</label>
+                    <input type="text" name="guardian_mobile" value="<%= student ? student.guardian_mobile : '' %>">
+                </div>
+                <div class="field">
+                    <label>प्रवेश तिथि</label>
+                    <input type="date" name="admission_date" value="<%= student && student.admission_date ? new Date(student.admission_date).toISOString().slice(0,10) : '' %>">
+                </div>
+                <div class="field full">
+                    <label>गाँव / पता</label>
+                    <textarea name="address" rows="2"><%= student ? student.address : '' %></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">सेव करें</button>
+                <a href="/students" class="btn btn-outline">रद्द करें</a>
+            </div>
+        </form>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'कम उपस्थिति सूची' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'attendance' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>कम उपस्थिति वाले छात्रों की सूची</h1>
+            <div class="subtitle"><%= threshold %>% से कम उपस्थिति — <%= selectedMonth %></div>
+        </div>
+        <a href="/attendance/mark" class="btn btn-outline">← वापस</a>
+    </div>
+
+    <form method="GET" action="/attendance/low" class="filter-bar">
+        <div class="field">
+            <label>महीना</label>
+            <input type="month" name="month" value="<%= selectedMonth %>">
+        </div>
+        <div class="field">
+            <label>न्यूनतम प्रतिशत सीमा</label>
+            <input type="number" name="threshold" value="<%= threshold %>" min="1" max="100">
+        </div>
+        <div class="field"><button type="submit" class="btn btn-outline btn-sm">दिखाएं</button></div>
+    </form>
+
+    <div class="card" style="padding:0;">
+        <% if (lowList.length === 0) { %>
+            <div class="empty-state"><div class="icon">✅</div>इस महीने कोई छात्र <%= threshold %>% से कम उपस्थिति में नहीं है।</div>
+        <% } else { %>
+        <div class="table-wrap">
+        <table class="register">
+            <thead><tr><th>कक्षा</th><th>रोल नं.</th><th>नाम</th><th>उपस्थित/कुल</th><th>प्रतिशत</th><th>अभि. मोबाइल</th></tr></thead>
+            <tbody>
+            <% lowList.forEach(function(r) { %>
+                <tr>
+                    <td><%= r.class_name %></td>
+                    <td><%= r.roll_number %></td>
+                    <td><%= r.student_name %></td>
+                    <td><%= r.present_days %>/<%= r.total_marked %></td>
+                    <td><span class="badge badge-no"><%= r.percentage %>%</span></td>
+                    <td><%= r.guardian_mobile %></td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

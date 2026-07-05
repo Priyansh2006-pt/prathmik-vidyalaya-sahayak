@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'परिणाम / प्रगति रिपोर्ट' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'results' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>परिणाम / प्रगति रिपोर्ट</h1>
+            <div class="subtitle">कक्षा और परीक्षा चुनकर अंक दर्ज करें</div>
+        </div>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <form method="GET" action="/results" class="filter-bar">
+        <div class="field">
+            <label>कक्षा</label>
+            <select name="class_name" onchange="this.form.submit()">
+                <% classes.forEach(function(c) { %>
+                    <option value="<%= c %>" <%= selectedClass === c ? 'selected' : '' %>><%= c %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="field">
+            <label>परीक्षा</label>
+            <select name="term" onchange="this.form.submit()">
+                <% terms.forEach(function(t) { %>
+                    <option value="<%= t %>" <%= selectedTerm === t ? 'selected' : '' %>><%= t %></option>
+                <% }) %>
+            </select>
+        </div>
+    </form>
+
+    <div class="card" style="padding:0;">
+        <% if (students.length === 0) { %>
+            <div class="empty-state"><div class="icon">📊</div>इस कक्षा में कोई छात्र नहीं मिला।</div>
+        <% } else { %>
+        <div class="table-wrap">
+        <table class="register">
+            <thead><tr><th>रोल नं.</th><th>नाम</th><th>ओवरऑल ग्रेड</th><th>क्रियाएं</th></tr></thead>
+            <tbody>
+            <% students.forEach(function(s) { %>
+                <tr>
+                    <td><%= s.roll_number %></td>
+                    <td><%= s.student_name %></td>
+                    <td><%= s.overall_grade || '—' %></td>
+                    <td>
+                        <a href="/results/entry/<%= s.student_id %>/<%= encodeURIComponent(selectedTerm) %>" class="btn btn-outline btn-sm">
+                            <%= s.overall_grade ? 'संपादित करें' : 'अंक दर्ज करें' %>
+                        </a>
+                        <% if (s.overall_grade) { %>
+                        <a href="/results/report-card/<%= s.student_id %>/<%= encodeURIComponent(selectedTerm) %>" class="btn btn-accent btn-sm">रिपोर्ट कार्ड</a>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

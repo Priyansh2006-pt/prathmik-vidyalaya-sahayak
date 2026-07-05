@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'उपस्थिति दर्ज करें' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'attendance' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>दैनिक उपस्थिति</h1>
+            <div class="subtitle">तारीख और कक्षा चुनें, फिर उपस्थिति दर्ज करें</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+            <a href="/attendance/monthly" class="btn btn-outline">📈 मासिक रिपोर्ट</a>
+            <a href="/attendance/low" class="btn btn-outline">⚠ कम उपस्थिति सूची</a>
+        </div>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <form method="GET" action="/attendance/mark" class="filter-bar">
+        <div class="field">
+            <label>तारीख</label>
+            <input type="date" name="date" value="<%= selectedDate %>">
+        </div>
+        <div class="field">
+            <label>कक्षा</label>
+            <select name="class_name">
+                <% classes.forEach(function(c) { %>
+                    <option value="<%= c %>" <%= selectedClass === c ? 'selected' : '' %>><%= c %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="field"><button type="submit" class="btn btn-outline btn-sm">दिखाएं</button></div>
+    </form>
+
+    <div class="card" style="padding:0;">
+        <% if (students.length === 0) { %>
+            <div class="empty-state">
+                <div class="icon">📋</div>
+                इस कक्षा में कोई छात्र नहीं है, या कोई कक्षा चुनी नहीं गई।
+            </div>
+        <% } else { %>
+        <form method="POST" action="/attendance/mark">
+            <input type="hidden" name="attendance_date" value="<%= selectedDate %>">
+            <input type="hidden" name="class_name" value="<%= selectedClass %>">
+            <div class="table-wrap">
+            <table class="register">
+                <thead><tr><th>रोल नं.</th><th>नाम</th><th>उपस्थित</th><th>अनुपस्थित</th></tr></thead>
+                <tbody>
+                <% students.forEach(function(s, i) { %>
+                    <tr>
+                        <td><%= s.roll_number %></td>
+                        <td><%= s.student_name %>
+                            <input type="hidden" name="student_ids[<%= i %>]" value="<%= s.student_id %>">
+                        </td>
+                        <td><input type="radio" name="statuses[<%= i %>]" value="Present" <%= (!s.status || s.status === 'Present') ? 'checked' : '' %>></td>
+                        <td><input type="radio" name="statuses[<%= i %>]" value="Absent" <%= s.status === 'Absent' ? 'checked' : '' %>></td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+            </div>
+            <div class="form-actions" style="padding: 0 22px 20px;">
+                <button type="submit" class="btn btn-primary">उपस्थिति सेव करें</button>
+            </div>
+        </form>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

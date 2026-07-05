@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: teacher ? 'शिक्षक संपादित करें' : 'नए शिक्षक जोड़ें' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'teachers' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <h1><%= teacher ? 'शिक्षक की जानकारी संपादित करें' : 'नए शिक्षक का पंजीकरण' %></h1>
+    </div>
+
+    <%- include('../partials/messages') %>
+
+    <div class="card">
+        <span class="card-tab-title">शिक्षक पंजीकरण फॉर्म</span>
+        <form method="POST" action="<%= formAction %>">
+            <div class="form-grid">
+                <div class="field">
+                    <label>शिक्षक का नाम *</label>
+                    <input type="text" name="teacher_name" required value="<%= teacher ? teacher.teacher_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>पद</label>
+                    <input type="text" name="designation" placeholder="जैसे: सहायक अध्यापक" value="<%= teacher ? teacher.designation : '' %>">
+                </div>
+                <div class="field">
+                    <label>मोबाइल नंबर</label>
+                    <input type="text" name="mobile_number" value="<%= teacher ? teacher.mobile_number : '' %>">
+                </div>
+                <div class="field">
+                    <label>योग्यता</label>
+                    <input type="text" name="qualification" placeholder="जैसे: बी.एड., बी.ए." value="<%= teacher ? teacher.qualification : '' %>">
+                </div>
+                <div class="field">
+                    <label>कक्षा / विषय</label>
+                    <input type="text" name="class_subject" placeholder="जैसे: कक्षा 3-5 / गणित" value="<%= teacher ? teacher.class_subject : '' %>">
+                </div>
+                <div class="field">
+                    <label>जॉइनिंग डेट</label>
+                    <input type="date" name="joining_date" value="<%= teacher && teacher.joining_date ? new Date(teacher.joining_date).toISOString().slice(0,10) : '' %>">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">सेव करें</button>
+                <a href="/teachers" class="btn btn-outline">रद्द करें</a>
+            </div>
+        </form>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

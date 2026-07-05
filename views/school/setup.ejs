@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'विद्यालय प्रोफ़ाइल सेटअप' }) %>
+</head>
+<body>
+<div class="center-screen">
+    <div class="auth-card setup-card">
+        <div class="eyebrow">पहली बार सेटअप</div>
+        <h1><%= school ? 'विद्यालय प्रोफ़ाइल संपादित करें' : 'अपने विद्यालय की जानकारी भरें' %></h1>
+        <div class="desc">यह जानकारी हर रिपोर्ट के ऊपर दिखाई जाएगी। यह एक बार भरनी होती है — बाद में यहीं से बदल भी सकते हैं।</div>
+
+        <%- include('../partials/messages') %>
+
+        <form method="POST" action="/school/setup">
+            <div class="form-grid">
+                <div class="field full">
+                    <label>विद्यालय का नाम *</label>
+                    <input type="text" name="school_name" required value="<%= school ? school.school_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>गाँव / क्षेत्र</label>
+                    <input type="text" name="village_area" value="<%= school ? school.village_area : '' %>">
+                </div>
+                <div class="field">
+                    <label>ब्लॉक</label>
+                    <input type="text" name="block_name" value="<%= school ? school.block_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>जिला</label>
+                    <input type="text" name="district_name" value="<%= school ? school.district_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>राज्य</label>
+                    <input type="text" name="state_name" value="<%= school ? school.state_name : 'उत्तर प्रदेश' %>">
+                </div>
+                <div class="field">
+                    <label>UDISE कोड</label>
+                    <input type="text" name="udise_code" value="<%= school ? school.udise_code : '' %>">
+                </div>
+                <div class="field">
+                    <label>प्रधानाध्यापक का नाम</label>
+                    <input type="text" name="headmaster_name" value="<%= school ? school.headmaster_name : '' %>">
+                </div>
+                <div class="field">
+                    <label>मोबाइल नंबर</label>
+                    <input type="text" name="mobile_number" value="<%= school ? school.mobile_number : '' %>">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">सेव करें</button>
+                <% if (school) { %>
+                <a href="/" class="btn btn-outline">रद्द करें</a>
+                <% } %>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

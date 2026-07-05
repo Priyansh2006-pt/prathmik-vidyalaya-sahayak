@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<%- include('../partials/head', { title: 'मासिक उपस्थिति रिपोर्ट' }) %>
+</head>
+<body>
+<div class="app-shell">
+<%- include('../partials/nav', { active: 'attendance' }) %>
+
+<main class="main">
+    <div class="page-header">
+        <div>
+            <h1>मासिक उपस्थिति रिपोर्ट</h1>
+            <div class="subtitle"><%= school.school_name %></div>
+        </div>
+        <a href="/attendance/mark" class="btn btn-outline">← वापस उपस्थिति दर्ज करें</a>
+    </div>
+
+    <form method="GET" action="/attendance/monthly" class="filter-bar">
+        <div class="field">
+            <label>महीना</label>
+            <input type="month" name="month" value="<%= selectedMonth %>">
+        </div>
+        <div class="field">
+            <label>कक्षा</label>
+            <select name="class_name">
+                <% classes.forEach(function(c) { %>
+                    <option value="<%= c %>" <%= selectedClass === c ? 'selected' : '' %>><%= c %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="field"><button type="submit" class="btn btn-outline btn-sm">दिखाएं</button></div>
+    </form>
+
+    <div class="card" style="padding:0;">
+        <% if (report.length === 0) { %>
+            <div class="empty-state"><div class="icon">📊</div>इस महीने का कोई डेटा नहीं मिला।</div>
+        <% } else { %>
+        <div class="table-wrap">
+        <table class="register">
+            <thead><tr><th>रोल नं.</th><th>नाम</th><th>कुल दिन (दर्ज)</th><th>उपस्थित</th><th>अनुपस्थित</th><th>प्रतिशत</th></tr></thead>
+            <tbody>
+            <% report.forEach(function(r) { %>
+                <tr>
+                    <td><%= r.roll_number %></td>
+                    <td><%= r.student_name %></td>
+                    <td><%= r.total_marked %></td>
+                    <td><%= r.present_days %></td>
+                    <td><%= r.total_marked - r.present_days %></td>
+                    <td>
+                        <%= r.percentage %>%
+                        <% if (parseFloat(r.percentage) < 75) { %> ⚠<% } %>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <% } %>
+    </div>
+</main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>
